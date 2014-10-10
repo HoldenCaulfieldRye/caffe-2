@@ -64,10 +64,10 @@ def classify_data(classifier_dir, symlink_dir, data_info, PRETRAINED, redbox=Fal
        'pred_lab_std': [],
        'pot_mislab': []}
   # load images
-  # if redbox:
-  imgs, d = load_all_images_from_dir(d, oj(symlink_dir,'redbox'), redbox)
-  # else:
-  #   imgs,d['fname'],d['time'],d['dude'] =  load_all_images_from_dir(oj(symlink_dir,'test'))
+  if redbox:
+    imgs, d = load_all_images_from_dir(d, oj(symlink_dir,'redbox'), redbox)
+  else:
+    imgs, d =  load_all_images_from_dir(oj(symlink_dir,'test'))
 
   # classify images
   num_imgs = len(d['fname'])
@@ -157,7 +157,7 @@ def get_np_mean_fname(symlink_dir):
 def load_all_images_from_dir(d, test_dir, redbox=False):
   imgs = []
   d['fname'] = os.listdir(test_dir)
-  print 'loading images...'
+  print 'loading images from %s...'%(test_dir)
   # d_multJoints is a dict: fname -> joint_name
   d_multJoints = create_dict_jname(REDBOX_DIR)
   for fname in d['fname']:
@@ -220,8 +220,11 @@ def compute_classification_stats(d, data_info, redbox=False):
   # *_thresh is with classification boundary according to threshold
   # *_std is with classification boundary at 0.5
   false_pos_thresh, num_pos, false_neg_thresh, num_neg, false_neg_std, false_pos_std = 0, 0, 0, 0, 0, 0
+  # print "\nd['label'] has types %s and flag_val of type %s \n"%(type(d['label'][0]),type(flag_val))
   for idx in range(num_imgs):
     if d['label'][idx] == flag_val:
+      print "%s is a positive"%(d['fname'][idx])
+      print "its preds are", d['pred'][idx]
       num_pos += 1
     else: num_neg += 1
     # assign predicted label wrt threshold
@@ -230,14 +233,14 @@ def compute_classification_stats(d, data_info, redbox=False):
       # print "thresh thinks no clamp! appending", flag_val
     else:
       d['pred_lab_thresh'].append((flag_val+1)%2)
-      # print "thresh thinks clamp! appending", (flag_val+1)%2
+      print "thresh thinks clamp! appending", (flag_val+1)%2
     # assign predicted label in std way
     if d['pred'][idx][flag_val] >= 0.5:
       d['pred_lab_std'].append(flag_val) 
       # print "std thinks no clamp! appending", flag_val, "\n"
     else:
       d['pred_lab_std'].append((flag_val+1)%2)
-      # print "std thinks clamp! appending", (flag_val+1)%2, "\n"
+      print "std thinks clamp! appending", (flag_val+1)%2, "\n"
     # correct thresh classification or not 
     if d['pred_lab_thresh'][idx] != d['label'][idx]:
       if d['label'][idx] == flag_val: false_neg_thresh += 1
@@ -355,8 +358,10 @@ def arrange_preds_with_flag_val(d, flag_val):
   works with balanced datasets. '''
   if any([sum(d['pred'][:,1])>sum(d['pred'][:,0]) and flag_val==1,
           sum(d['pred'][:,0])>sum(d['pred'][:,1]) and flag_val==0]):
-    print "flipping pred columns around!"
+    print "\nflipping pred columns around!\n"
     d['preds'] = np.fliplr(d['preds'])
+  else: print "\nnot flipping pred columns around\n"
+
   return d
 
 def plot_for_redbox(d, save_dir):
