@@ -1,10 +1,12 @@
+#!/usr/bin/env python
+
 import sys, os
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from os.path import join as oj
-from subprocess import call
+import subprocess
 
 # Usage: python plot.py path/to/model test-inter=.. [start-iter=..] [end-iter==..]
 
@@ -36,6 +38,7 @@ def matplot(model_dir, train, val_acc, val_loss, start=-1, end=-1):
   ytrain = np.array([float(el[1]) for el in train[start:end]])
   ytest_acc = np.array([float(el[1]) for el in val_acc[start:end]])
   ytest_loss = np.array([np.float(el[1]) for el in val_loss[start:end]])
+  # print "\nloss looks like", ytest_loss[:5], ytest_loss[-5:], "\n"
   plt.plot(x, ytrain, label='training loss', color='0.55')
   # plt.plot(x, ytrain, label='training loss')
   if len(x) != len(ytest_acc):
