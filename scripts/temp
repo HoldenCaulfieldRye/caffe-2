@@ -1,0 +1,22 @@
+
+  optional string train_net = 1; // The proto file for the training net.
+  optional string test_net = 2; // The proto file for the testing net.
+  optional int32 test_iter = 3 [default = 0];
+  optional int32 test_interval = 4 [default = 0];
+  optional bool test_compute_loss = 19 [default = false];
+  optional float base_lr = 5; // The base learning rate
+  optional int32 display = 6;
+  optional int32 max_iter = 7; // the maximum number of iterations
+  optional string lr_policy = 8; // The learning rate decay policy.
+  optional float gamma = 9; // The parameter to compute the learning rate.
+  optional float power = 10; // The parameter to compute the learning rate.
+  optional float momentum = 11; // The momentum value.
+  optional float weight_decay = 12; // The weight decay.
+  optional int32 stepsize = 13; // the stepsize for learning rate policy "step"
+  optional int32 snapshot = 14 [default = 0]; // The snapshot interval
+  optional string snapshot_prefix = 15; // The prefix for the snapshot.
+  optional bool snapshot_diff = 16 [default = false];
+  optional SolverMode solver_mode = 17 [default = GPU];
+  optional int32 device_id = 18 [default = 0];
+  optional int64 random_seed = 20 [default = -1];
+

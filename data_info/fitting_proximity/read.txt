@@ -1,0 +1,4 @@
+0 FittingProximity
+1 GoodFittingProximity
+00 threshold
+0 flag_val
