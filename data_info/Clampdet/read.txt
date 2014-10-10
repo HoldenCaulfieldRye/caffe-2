@@ -1,3 +1,2 @@
-0 Clamp
-1 Other
-2 NoClamp
+0 Default
+1 PhotoDoesNotShowEnoughOfClamps+UnsuitablePhoto+NoClampUsed
