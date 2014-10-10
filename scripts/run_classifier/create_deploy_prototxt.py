@@ -11,7 +11,9 @@ def get_train_file(model_dir):
   for fname in os.listdir(model_dir):
     if fname.endswith('train.prototxt'):
       return open(ojoin(model_dir,fname),'r')
-  print 'no train prototxt found'
+  if not os.path.isdir(model_dir):
+    print "error:", model_dir, "does not exist"
+  else: print 'no train prototxt found in', model_dir
   sys.exit()
 
 def edit_train_content_for_deploy(content, oversample=True):

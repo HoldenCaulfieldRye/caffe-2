@@ -20,7 +20,7 @@ sys.path.insert(0, caffe_root + 'python')
 
 # usage:
 
-# python run_classifier.py classifier-dir=/homes/ad6813/net-saves/clampdet/none symlink-dir=../../data/clampdet data-info=../../data_info/clampdet --redbox
+# python run_classifier.py classifier-dir=/homes/ad6813/net-saves/clampdet/linSVM symlink-dir=../../data/clampdet data-info=../../data_info/clampdet --redbox
 
 # python run_classifier.py classifier-dir=/homes/ad6813/net-saves/clampdet/none symlink-dir=../../data/clampdet data-info=../../data_info/clampdet
 
@@ -359,7 +359,7 @@ def arrange_preds_with_flag_val(d, flag_val):
   if any([sum(d['pred'][:,1])>sum(d['pred'][:,0]) and flag_val==1,
           sum(d['pred'][:,0])>sum(d['pred'][:,1]) and flag_val==0]):
     print "\nflipping pred columns around!\n"
-    d['preds'] = np.fliplr(d['preds'])
+    d['pred'] = np.fliplr(d['pred'])
   else: print "\nnot flipping pred columns around\n"
 
   return d
