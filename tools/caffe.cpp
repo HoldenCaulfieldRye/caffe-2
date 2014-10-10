@@ -1,4 +1,5 @@
 #include <glog/logging.h>
+#include <gflags/gflags.h>
 
 #include <cstring>
 #include <map>
