@@ -71,12 +71,14 @@ def classify_data(classifier_dir, symlink_dir, data_info, PRETRAINED, redbox=Fal
 
   # classify images
   num_imgs = len(d['fname'])
+  print "computing preds..."
   d['pred'] = net.predict(imgs[:N])
   # print pred
   if num_imgs > N:
     for i in range(1,num_imgs/N):
       d['pred'] = np.append(d['pred'],net.predict(imgs[i*N:(i+1)*N]),axis=0)
     d['pred']=np.append(d['pred'],net.predict(imgs[-(len(imgs)%N):]),axis=0)
+  print "preds computed."
 
   # save preds
   assert len(d['pred']) == num_imgs
@@ -223,7 +225,7 @@ def compute_classification_stats(d, data_info, redbox=False):
   # print "\nd['label'] has types %s and flag_val of type %s \n"%(type(d['label'][0]),type(flag_val))
   for idx in range(num_imgs):
     if d['label'][idx] == flag_val:
-      print "%s is a positive"%(d['fname'][idx])
+      print "%s is a positive, with preds %s"%(d['fname'][idx])
       print "its preds are", d['pred'][idx]
       num_pos += 1
     else: num_neg += 1
