@@ -67,7 +67,7 @@ def classify_data(classifier_dir, symlink_dir, data_info, PRETRAINED, redbox=Fal
   if redbox:
     imgs, d = load_all_images_from_dir(d, oj(symlink_dir,'redbox'), redbox)
   else:
-    imgs, d =  load_all_images_from_dir(oj(symlink_dir,'test'))
+    imgs, d =  load_all_images_from_dir(d, oj(symlink_dir,'test'))
 
   # classify images
   num_imgs = len(d['fname'])
