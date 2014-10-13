@@ -1,4 +1,0 @@
-0 NoVisibleHatchMarkings
-1 HatchMarkings
-0.27 threshold
-0 flag_val

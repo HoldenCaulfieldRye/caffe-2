@@ -1,6 +1,0 @@
-0 JointMisaligned
-1 JointAligned
-0 flag_val
-00 threshold
-00 threshold
-0 flag_val

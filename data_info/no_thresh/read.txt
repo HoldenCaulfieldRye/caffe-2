@@ -1,6 +1,0 @@
-0 Clamp
-1 NoClamp
-1 flag_val
-0.12 threshold
-0.12 threshold
-1 flag_val

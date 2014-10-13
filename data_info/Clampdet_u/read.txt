@@ -1,3 +1,0 @@
-0 Clamp
-1 NoClamp
-2 Unsuitable

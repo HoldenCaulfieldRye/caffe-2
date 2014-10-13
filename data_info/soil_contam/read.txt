@@ -1,6 +1,0 @@
-0 SoilContam
-1 NoSoilContam
-0.02 threshold
-0 flag_val
-0.02 threshold
-0 flag_val
