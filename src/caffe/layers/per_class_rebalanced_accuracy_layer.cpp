@@ -16,7 +16,7 @@ using std::max;
 namespace caffe {
   
 template <typename Dtype>
-void PerClassBayesianAccuracyLayer<Dtype>::SetUp(
+void PerClassRebalancedAccuracyLayer<Dtype>::SetUp(
   const vector<Blob<Dtype>*>& bottom, vector<Blob<Dtype>*>* top) {
   CHECK_EQ(bottom.size(), 2) << "Accuracy Layer takes two blobs as input.";
   CHECK_EQ(top->size(), 1) << "Accuracy Layer takes 1 output.";
@@ -30,7 +30,7 @@ void PerClassBayesianAccuracyLayer<Dtype>::SetUp(
 }
 
 template <typename Dtype>
-Dtype PerClassBayesianAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
+Dtype PerClassRebalancedAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
     vector<Blob<Dtype>*>* top) {
   Dtype accuracy = 0;
   Dtype logprob = 0;
@@ -74,6 +74,6 @@ Dtype PerClassBayesianAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>
   return Dtype(0);
 }
 
-INSTANTIATE_CLASS(PerClassBayesianAccuracyLayer);
+INSTANTIATE_CLASS(PerClassRebalancedAccuracyLayer);
 
 }  // namespace caffe

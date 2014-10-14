@@ -12,7 +12,7 @@ using std::max;
 namespace caffe {
 
 template <typename Dtype>
-void SoftmaxWithBayesianLossLayer<Dtype>::SetUp(const vector<Blob<Dtype>*>& bottom,
+void SoftmaxRebalancedLossLayer<Dtype>::SetUp(const vector<Blob<Dtype>*>& bottom,
       vector<Blob<Dtype>*>* top) {
   CHECK_EQ(bottom.size(), 2) << "SoftmaxLoss Layer takes two blobs as input.";
   CHECK_EQ(top->size(), 0) << "SoftmaxLoss Layer takes no blob as output.";
@@ -28,7 +28,7 @@ void SoftmaxWithBayesianLossLayer<Dtype>::SetUp(const vector<Blob<Dtype>*>& bott
 }
 
 template <typename Dtype>
-Dtype SoftmaxWithBayesianLossLayer<Dtype>::Forward_cpu(
+Dtype SoftmaxRebalancedLossLayer<Dtype>::Forward_cpu(
     const vector<Blob<Dtype>*>& bottom, vector<Blob<Dtype>*>* top) {
   // The forward pass computes the softmax prob values.
   // what is _prob ? looks like instantiation of some class
@@ -60,7 +60,7 @@ Dtype SoftmaxWithBayesianLossLayer<Dtype>::Forward_cpu(
 template <typename Dtype>
 // computes dE/dz for every neuron input vector z = <x,w>+b
 // this does NOT update the weights, it merely calculates dy/dz
-void SoftmaxWithBayesianLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
+void SoftmaxRebalancedLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
     const bool propagate_down,
     vector<Blob<Dtype>*>* bottom) {
   // Compute the diff
@@ -88,7 +88,7 @@ void SoftmaxWithBayesianLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*
 }
 /*
 template <typename Dtype>
-void SoftmaxWithBayesianLossLayer<Dtype>::Backward_cpu_old(const vector<Blob<Dtype>*>& top,
+void SoftmaxRebalancedLossLayer<Dtype>::Backward_cpu_old(const vector<Blob<Dtype>*>& top,
     const bool propagate_down,
     vector<Blob<Dtype>*>* bottom) {
   // Compute the diff
@@ -106,7 +106,7 @@ void SoftmaxWithBayesianLossLayer<Dtype>::Backward_cpu_old(const vector<Blob<Dty
 }
 */
 
-INSTANTIATE_CLASS(SoftmaxWithBayesianLossLayer);
+INSTANTIATE_CLASS(SoftmaxRebalancedLossLayer);
 
 
 }  // namespace caffe
