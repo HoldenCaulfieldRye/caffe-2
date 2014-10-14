@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/env python
 import numpy as np
 import os
 from os.path import join as ojoin
@@ -9,9 +9,9 @@ from datetime import date
 from shutil import rmtree
 import random, subprocess
 
-# expected input: setup --task= --box= --learn= [target-bad-min=]
+# expected input: ./setup --task= --box= --learn= [target-bad-min=]
 
-# setup --task=clamp --box=red --learn=3-10-14
+# ./setup --task=clamp --box=blue --learn=3-10-14
 
 def main(data_dir, data_info, task, pos_class,target_bad_min=None):
   ''' This is the master function. data_dir: where raw data is. data_info: where to store .txt files. '''
@@ -22,7 +22,6 @@ def main(data_dir, data_info, task, pos_class,target_bad_min=None):
   Keep = within_class_shuffle(Keep)
   print 'finished shuffling'
   dump_to_files(Keep, data_info, task)
-  return num_output
 
 
 def get_label_dict_knowing(data_dir, task, pos_class):
@@ -34,8 +33,7 @@ def get_label_dict_knowing(data_dir, task, pos_class):
   print 'generating specific dict of class:files from %s...'%(data_dir)
   for filename in os.listdir(data_dir):
     if not filename.endswith('.dat'): continue
-    fullname = os.data_dir.join(data_dir, filename)
-    with open(fullname) as f:
+    with open(ojoin(data_dir, filename)) as f:
       content = [line.strip() for line in f.readlines()]
       if any([label==line for (label,line)
               in itertools.product(pos_class,content)]):
@@ -201,7 +199,8 @@ def dump_to_files(Keep, data_info, task):
     if os.path.isfile(ojoin(data_info,dump_fnames[i])):
       print "WARNING: overwriting", ojoin(data_info,dump_fnames[i])
     with open(ojoin(data_info,dump_fnames[i]),'w') as dfile:
-      dfile.writelines(["%s %i\n" % (f,num) for (f,num) in dump[i]])
+      dfile.writelines(["%s %i\n" % (ojoin(data_info,f),num)
+                        for (f,num) in dump[i]])
 
     
 def flag_lookup(labels):
@@ -210,7 +209,7 @@ def flag_lookup(labels):
     content = f.readlines()
     for line in content:
       if line.split()[0] in labels:
-        flags.append.(line.split()[1])
+        flags.append(line.split()[1])
   return flags
         
 
@@ -244,11 +243,10 @@ if __name__ == '__main__':
   # as well save entire command
   if not os.path.isdir(data_info): os.mkdir(data_info)
   with open(ojoin(data_info,'read.txt'), 'w') as read_file:
-    read_file.write(" ".join(sys.argv))
+    read_file.write(" ".join(sys.argv)+'\n')
 
   # do your shit
-  num_output = main(data_dir, data_info, task, pos_class,
-                    target_bad_min)
+  main(data_dir, data_info, task, pos_class, target_bad_min)
 
   # p = subprocess.Popen("./setup_rest.sh " + task.capitalize() + " " + str(num_output), shell=True)
   # p.wait()
