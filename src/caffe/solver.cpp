@@ -313,7 +313,7 @@ void Solver<Dtype>::Snapshot() {
   char iter_str_buffer[kBufferSize];
   snprintf(iter_str_buffer, kBufferSize, "_iter_%d", iter_);
   filename += iter_str_buffer;
-  model_filename = filename + ".caffemodel";
+  model_filename = filename + ".wts";
   LOG(INFO) << "Snapshotting to " << model_filename;
   WriteProtoToBinaryFile(net_param, model_filename.c_str());
   SolverState state;
