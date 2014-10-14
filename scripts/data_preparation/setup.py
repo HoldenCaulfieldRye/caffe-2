@@ -1,3 +1,4 @@
+#!/bin/env python
 import numpy as np
 import os
 from os.path import join as ojoin
@@ -6,43 +7,27 @@ from operator import itemgetter as ig
 import itertools 
 from datetime import date
 from shutil import rmtree
-import json, yaml, random
-import subprocess
+import random, subprocess
 
-# expected input: python setup.py <model_name> <{Bluebox,Redbox}> [<target_bad_min>]
+# expected input: ./setup.py <task_name> <{Bluebox,Redbox}>  [<target_bad_min>]
 
-def main(data_dir, data_info, to_dir, target_bad_min, lab_to_learn, task):
-  ''' This is the master function. 
-  data_dir: where raw data is. data_info: where to store .txt files. '''
+def main(data_dir, data_info, lab_to_learn, task, target_bad_min=None):
+  ''' This is the master function. data_dir: where raw data is. data_info: where to store .txt files. '''
   lab_to_learn = classes_to_learn(lab_to_learn)
-  
-  All = get_label_dict(data_dir)
-  total_num_images = All.pop('total_num_images')
-  # merge_classes only after default label entry created
-  Keep = default_class(All, Keep)
-  total_num_check = sum([len(Keep[key]) for key in Keep.keys()])
-  if total_num_images != total_num_check:
-    print "\nWARNING! started off with %i images, now have %i distinct training cases"%(total_num_images, total_num_check)
-  print "keeping %i classes" % len(Keep.keys())
-  if len(Keep.keys()) > 2:
-    Keep, num_output = merge_classes(Keep)
-    Keep, num_output = check_mutual_exclusion(Keep, num_output)
-  print "target bad min: %s" %(target_bad_min)
-  Keep = rebalance(Keep, total_num_images, target_bad_min)
-  print 'finished rebalancing'
+  Keep = get_label_dict(data_dir)
+  if target_bad_min is not None:
+    print "target bad min: %s" %(target_bad_min)
+    Keep = rebalance(Keep, total_num_images, target_bad_min)
   Keep = within_class_shuffle(Keep)
   print 'finished shuffling'
-  dump = symlink_dataset(Keep, data_dir, to_dir)
-  if data_info is not None:
-    dump_to_files(Keep, dump, data_info)
-  return num_output, dump
+  dump_to_files(Keep, data_info, task)
+  return num_output
 
 
 def get_label_dict(data_dir, lab_to_learn, task):
-  # 3-10 should make it only look for
-  total_num_images = 0
+  # 3-10-14 should make it only look for
   path = data_dir
-  _class = flag_lookup(lab_to_learn)
+  pos_class = flag_lookup(lab_to_learn)
   d = {'Default': [], task: []}
   print 'generating dict of label:files from %s...'%(data_dir)
   for filename in os.listdir(path):
@@ -52,12 +37,33 @@ def get_label_dict(data_dir, lab_to_learn, task):
     with open(fullname) as f:
       content = [line.strip() for line in f.readlines()]
       if any([label==line for (label,line)
-              in itertools.product(_class,content)]):
+              in itertools.product(pos_class,content)]):
         d[task].append(filename.split('.')[0]+'.jpg')
       else:
         d['Default'].append(filename.split('.')[0]+'.jpg')
-  d['total_num_images'] = total_num_images
   return d
+
+
+def flag_lookup(lab_to_learn):
+  lab_to_learn, flags = lab_to_learn.split('-'), []
+  with open('/homes/ad6813/data/flag_lookup.txt','r') as f: 
+    content = f.readlines()
+    for line in content:
+      if line.split()[0] in lab_to_learn:
+        flags.append.(line.split()[1])
+        
+
+def classes_to_learn(lab_to_learn):
+  classes = lab_to_learn.split(' ')
+  Keep = {}
+  print ''
+  for elem in enumerate(sorted(All.keys())): print elem
+  read_labels = [sorted(All.keys())[int(num)] for num in raw_input("\nNumbers of labels to learn, separated by ' ': ").split()]
+  # if 'Perfect' in All.keys():
+  #   Keep['Perfect'] = All['Perfect']
+  for label in read_labels:
+    Keep[label] = All[label]
+  return Keep
 
 
 def rebalance(Keep, total_num_images, target_bad_min):
@@ -176,19 +182,6 @@ def check_aux(Keep, num_output, k):
   return Keep, num_output, []
       
 
-def classes_to_learn(lab_to_learn):
-  classes = lab_to_learn.split(' ')
-  Keep = {}
-  print ''
-  for elem in enumerate(sorted(All.keys())): print elem
-  read_labels = [sorted(All.keys())[int(num)] for num in raw_input("\nNumbers of labels to learn, separated by ' ': ").split()]
-  # if 'Perfect' in All.keys():
-  #   Keep['Perfect'] = All['Perfect']
-  for label in read_labels:
-    Keep[label] = All[label]
-  return Keep
-
-
 def within_class_shuffle(Keep):
   ''' randomly shuffles the ordering of Keep[key] for each key. '''
   for key in Keep.keys():
@@ -199,67 +192,59 @@ def within_class_shuffle(Keep):
   return Keep
 
 
-def symlink_dataset(Keep, from_dir, to_dir):
+def dump_to_files(Keep, data_info, task):
   dump = []
-  part = [0, 0.8, 0.87, 1] # partition into train val test
-  if os.path.isdir(to_dir): rmtree(to_dir)
-  os.mkdir(to_dir)
+  part = [0, 0.82, 0.89, 1] # partition into train val test
+  dump_fnames = ['train.txt','val.txt','test.txt']
   for i in xrange(3):
     dump.append([])
-    for [num,key] in enumerate(Keep.keys()):
+    for [key,num] in [('Default',0),(task,1)]:
       l = len(Keep[key])
       dump[i] += [[f,num] for f in
                   Keep[key][int(part[i]*l):int(part[i+1]*l)]]
+    # this is the important shuffle actually
     random.shuffle(dump[i])
-  
-  # cross_val = [np.array(d, dtype=[('x',object),('y',int)])
-  #              for d in dump]
-  for d,dname in zip(dump,['train','val','test']):
-    data_dst_dir = ojoin(to_dir,dname)
-    os.mkdir(data_dst_dir)
-    for i in xrange(len(d)):
-      if os.path.islink(ojoin(data_dst_dir,d[i][0])):
-        old = d[i][0]
-        while os.path.islink(ojoin(data_dst_dir,d[i][0])):
-          print '%s symlinked already, creating duplicate'%(d[i][0])
-          d[i][0] = d[i][0].split('.')[0]+'_.jpg'
-        os.symlink(ojoin(from_dir,old),
-                   ojoin(data_dst_dir,d[i][0]))
-      else: os.symlink(ojoin(from_dir,d[i][0]),
-                       ojoin(data_dst_dir,d[i][0]))
-  return dump
-
-
-def dump_to_files(Keep, dump, data_info):
-  if os.path.exists(data_info): rmtree(data_info)
-  os.mkdir(data_info)
-  dump_fnames = ['train.txt','val.txt','test.txt']
-  for i in xrange(3):
-    dfile = open(ojoin(data_info,dump_fnames[i]),'w')
-    dfile.writelines(["%s %i\n" % (f,num) for (f,num) in dump[i]])
-    dfile.close()
-    
-  # write to read file how to interpret values as classes      
-  read_file = open(ojoin(data_info,'read.txt'), 'w')    
-  read_file.writelines(["%i %s\n" % (num,label) for (num, label)
-                         in enumerate(Keep.keys())])
-  read_file.close()
+    with open(ojoin(data_info,dump_fnames[i]),'w') as dfile:
+      dfile.writelines(["%s %i\n" % (f,num) for (f,num) in dump[i]])
 
     
 if __name__ == '__main__':
-  import sys
+  import sys, getopt
+
+  opts, extraparams = getopt.gnu_getopt(sys.argv[1:], "", ["task=", "box=", "target-bad-min="])
+  optDict = dict([(k[2:],v) for (k,v) in opts])
+  print optDict
+  if not "task" in optDict:
+    raise Exception("Need to specify --task flag")
+  task = optDict["model"].capitalize()
+  if not "submodel" in optDict:
+    raise Exception("Need to specify --submodel flag")
+  submodel = optDict["submodel"]
+  baseDir = os.path.abspath("../models/" + task) + "/"
+  logsDir = os.path.abspath(baseDir + "logs/" + submodel) + "/"
+  solverFile = baseDir + task + "_solver.prototxt"
+
+
+  for arg in sys.argv:
+    if '-box=' in arg: pass
+    elif '' in arg:
+    elif '' in arg:
+    elif '' in arg:
+    
   
-  target_bad_min, data, task= "N", None, None
-  task = sys.argv[1]
-  data = sys.argv[2]
-  if len(sys.argv) > 3:
-    target_bad_min = sys.argv[3]
-
+  target_bad_min, data, task = None, None, None
+  
   data_dir = "/data/ad6813/pipe-data/" + data.capitalize() + "/raw_data/dump"
-  data_info = "/data/ad6813/caffe/data_info/" + task.capitalize()
-  to_dir = "/data/ad6813/caffe/data/" + task.capitalize()
+  data_info = "/data/ad6813/caffe/data/" + task
 
-  num_output,dump = main(data_dir, data_info, to_dir, target_bad_min, lab_to_learn, task)
+  # write to read file how to interpret values as classes and might
+  # as well save entire command
+  if not os.path.isdir(data_info): os.mkdir(data_info)
+  with open(ojoin(data_info,'read.txt'), 'w') as read_file:
+    read_file.write(" ".join(sys.argv))
+  
+  num_output,dump = main(data_dir, data_info, lab_to_learn, task,
+                         to_dir, target_bad_min)
 
   # p = subprocess.Popen("./setup_rest.sh " + task.capitalize() + " " + str(num_output), shell=True)
   # p.wait()
