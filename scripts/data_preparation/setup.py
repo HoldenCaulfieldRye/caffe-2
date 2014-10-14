@@ -248,5 +248,6 @@ if __name__ == '__main__':
   # do your shit
   main(data_dir, data_info, task, pos_class, target_bad_min)
 
-  # p = subprocess.Popen("./setup_rest.sh " + task.capitalize() + " " + str(num_output), shell=True)
+  # still need to automate this
+  # p = subprocess.Popen("./setup_rest.sh " + task + " " + str(num_output), shell=True)
   # p.wait()
