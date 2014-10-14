@@ -50,6 +50,7 @@ python/caffe/proto/
 # contributed
 *.jpg
 *.caffemodel
+*weights
 *.solverstate
 *.binaryproto
 *leveldb
