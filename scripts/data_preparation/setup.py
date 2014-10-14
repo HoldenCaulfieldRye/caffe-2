@@ -9,12 +9,13 @@ from datetime import date
 from shutil import rmtree
 import random, subprocess
 
-# expected input: ./setup.py <task_name> <{Bluebox,Redbox}>  [<target_bad_min>]
+# expected input: setup --task= --box= --learn= [target-bad-min=]
 
-def main(data_dir, data_info, lab_to_learn, task, target_bad_min=None):
+# setup --task=clamp --box=red --learn=3-10-14
+
+def main(data_dir, data_info, task, pos_class,target_bad_min=None):
   ''' This is the master function. data_dir: where raw data is. data_info: where to store .txt files. '''
-  lab_to_learn = classes_to_learn(lab_to_learn)
-  Keep = get_label_dict(data_dir)
+  Keep = get_label_dict_knowing(data_dir, task, pos_class)
   if target_bad_min is not None:
     print "target bad min: %s" %(target_bad_min)
     Keep = rebalance(Keep, total_num_images, target_bad_min)
@@ -24,16 +25,16 @@ def main(data_dir, data_info, lab_to_learn, task, target_bad_min=None):
   return num_output
 
 
-def get_label_dict(data_dir, lab_to_learn, task):
-  # 3-10-14 should make it only look for
-  path = data_dir
-  pos_class = flag_lookup(lab_to_learn)
+def get_label_dict_knowing(data_dir, task, pos_class):
+  ''' get_label_dict() knowing exactly which flags to look for and 
+  how to group them into classes. 
+  task is the name of what we're learning to detect,
+  pos_class is a list of the actual flag names to look for. '''
   d = {'Default': [], task: []}
-  print 'generating dict of label:files from %s...'%(data_dir)
-  for filename in os.listdir(path):
+  print 'generating specific dict of class:files from %s...'%(data_dir)
+  for filename in os.listdir(data_dir):
     if not filename.endswith('.dat'): continue
-    total_num_images += 1
-    fullname = os.path.join(path, filename)
+    fullname = os.data_dir.join(data_dir, filename)
     with open(fullname) as f:
       content = [line.strip() for line in f.readlines()]
       if any([label==line for (label,line)
@@ -44,26 +45,17 @@ def get_label_dict(data_dir, lab_to_learn, task):
   return d
 
 
-def flag_lookup(lab_to_learn):
-  lab_to_learn, flags = lab_to_learn.split('-'), []
-  with open('/homes/ad6813/data/flag_lookup.txt','r') as f: 
-    content = f.readlines()
-    for line in content:
-      if line.split()[0] in lab_to_learn:
-        flags.append.(line.split()[1])
-        
-
-def classes_to_learn(lab_to_learn):
-  classes = lab_to_learn.split(' ')
-  Keep = {}
-  print ''
-  for elem in enumerate(sorted(All.keys())): print elem
-  read_labels = [sorted(All.keys())[int(num)] for num in raw_input("\nNumbers of labels to learn, separated by ' ': ").split()]
-  # if 'Perfect' in All.keys():
-  #   Keep['Perfect'] = All['Perfect']
-  for label in read_labels:
-    Keep[label] = All[label]
-  return Keep
+# def classes_to_learn(lab_to_learn):
+#   classes = lab_to_learn.split(' ')
+#   Keep = {}
+#   print ''
+#   for elem in enumerate(sorted(All.keys())): print elem
+#   read_labels = [sorted(All.keys())[int(num)] for num in raw_input("\nNumbers of labels to learn, separated by ' ': ").split()]
+#   # if 'Perfect' in All.keys():
+#   #   Keep['Perfect'] = All['Perfect']
+#   for label in read_labels:
+#     Keep[label] = All[label]
+#   return Keep
 
 
 def rebalance(Keep, total_num_images, target_bad_min):
@@ -193,6 +185,8 @@ def within_class_shuffle(Keep):
 
 
 def dump_to_files(Keep, data_info, task):
+  ''' This function "trusts" you. It will overwrite data lookup 
+  files. '''
   dump = []
   part = [0, 0.82, 0.89, 1] # partition into train val test
   dump_fnames = ['train.txt','val.txt','test.txt']
@@ -204,47 +198,57 @@ def dump_to_files(Keep, data_info, task):
                   Keep[key][int(part[i]*l):int(part[i+1]*l)]]
     # this is the important shuffle actually
     random.shuffle(dump[i])
+    if os.path.isfile(ojoin(data_info,dump_fnames[i])):
+      print "WARNING: overwriting", ojoin(data_info,dump_fnames[i])
     with open(ojoin(data_info,dump_fnames[i]),'w') as dfile:
       dfile.writelines(["%s %i\n" % (f,num) for (f,num) in dump[i]])
 
     
+def flag_lookup(labels):
+  labels, flags = labels.split('-'), []
+  with open('/homes/ad6813/data/flag_lookup.txt','r') as f: 
+    content = f.readlines()
+    for line in content:
+      if line.split()[0] in labels:
+        flags.append.(line.split()[1])
+  return flags
+        
+
 if __name__ == '__main__':
   import sys, getopt
 
-  opts, extraparams = getopt.gnu_getopt(sys.argv[1:], "", ["task=", "box=", "target-bad-min="])
+  opts, extraparams = getopt.gnu_getopt(sys.argv[1:], "", ["task=", "box=", "learn=", "target-bad-min="])
   optDict = dict([(k[2:],v) for (k,v) in opts])
   print optDict
+  
   if not "task" in optDict:
     raise Exception("Need to specify --task flag")
-  task = optDict["model"].capitalize()
-  if not "submodel" in optDict:
-    raise Exception("Need to specify --submodel flag")
-  submodel = optDict["submodel"]
-  baseDir = os.path.abspath("../models/" + task) + "/"
-  logsDir = os.path.abspath(baseDir + "logs/" + submodel) + "/"
-  solverFile = baseDir + task + "_solver.prototxt"
-
-
-  for arg in sys.argv:
-    if '-box=' in arg: pass
-    elif '' in arg:
-    elif '' in arg:
-    elif '' in arg:
-    
-  
-  target_bad_min, data, task = None, None, None
-  
-  data_dir = "/data/ad6813/pipe-data/" + data.capitalize() + "/raw_data/dump"
+  task = optDict["task"]
   data_info = "/data/ad6813/caffe/data/" + task
+  
+  if not "box" in optDict:
+    raise Exception("Need to specify --box flag\nRed, Blue, RedBlue")
+  data_dir = "/data/ad6813/pipe-data/" + optDict["box"].capitalize() + "box/raw_data/dump"
+  
+  if not "learn" in optDict:
+    raise Exception("Need to specify --learn flag\nlabNum1-labNum2-...-labNumk")
+  pos_class = flag_lookup(optDict["learn"])
+
+  target_bad_min = None
+  if "target-bad-min" in optDict:
+    target_bad_min = float(optDict["target-bad-min"])
+    
+  # baseDir = os.path.abspath("../task/" + task) + "/"
 
   # write to read file how to interpret values as classes and might
   # as well save entire command
   if not os.path.isdir(data_info): os.mkdir(data_info)
   with open(ojoin(data_info,'read.txt'), 'w') as read_file:
     read_file.write(" ".join(sys.argv))
-  
-  num_output,dump = main(data_dir, data_info, lab_to_learn, task,
-                         to_dir, target_bad_min)
+
+  # do your shit
+  num_output = main(data_dir, data_info, task, pos_class,
+                    target_bad_min)
 
   # p = subprocess.Popen("./setup_rest.sh " + task.capitalize() + " " + str(num_output), shell=True)
   # p.wait()
