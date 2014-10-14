@@ -4,7 +4,7 @@ test_interval: 5
 # lr for fine-tuning should be lower than when starting from scratch
 base_lr: 0.001
 lr_policy: "step"
-gamma: 0.7
+gamma: 0.9
 # stepsize should also be lower, as we're closer to being done
 stepsize: 50
 display: 1
