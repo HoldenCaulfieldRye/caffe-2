@@ -1,3 +1,0 @@
-/data/ad6813/pipe-data/Redbox/raw_data/dump/100008.jpg 0
-/data/ad6813/pipe-data/Redbox/raw_data/dump/100009.jpg 1
-/data/ad6813/pipe-data/Redbox/raw_data/dump/100010.jpg 0

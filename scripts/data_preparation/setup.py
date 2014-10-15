@@ -9,7 +9,7 @@ from datetime import date
 from shutil import rmtree
 import random, subprocess
 
-# expected input: ./setup --task= --box= --learn= [target-bad-min=]
+# expected input: ./setup --task= --box= --learn= [--target-bad-min=]
 
 # ./setup --task=clamp --box=blue --learn=3-10-14
 
@@ -21,7 +21,7 @@ def main(data_dir, data_info, task, pos_class,target_bad_min=None):
     Keep = rebalance(Keep, total_num_images, target_bad_min)
   Keep = within_class_shuffle(Keep)
   print 'finished shuffling'
-  dump_to_files(Keep, data_info, task)
+  dump_to_files(Keep, data_info, task, data_dir)
 
 
 def get_label_dict_knowing(data_dir, task, pos_class):
@@ -182,7 +182,7 @@ def within_class_shuffle(Keep):
   return Keep
 
 
-def dump_to_files(Keep, data_info, task):
+def dump_to_files(Keep, data_info, task, data_dir):
   ''' This function "trusts" you. It will overwrite data lookup 
   files. '''
   dump = []
@@ -199,7 +199,7 @@ def dump_to_files(Keep, data_info, task):
     if os.path.isfile(ojoin(data_info,dump_fnames[i])):
       print "WARNING: overwriting", ojoin(data_info,dump_fnames[i])
     with open(ojoin(data_info,dump_fnames[i]),'w') as dfile:
-      dfile.writelines(["%s %i\n" % (ojoin(data_info,f),num)
+      dfile.writelines(["%s %i\n" % (ojoin(data_dir,f),num)
                         for (f,num) in dump[i]])
 
     
