@@ -12,23 +12,24 @@ using std::max;
 namespace caffe {
 
 template <typename Dtype>
-void SoftmaxRebalancedLossLayer<Dtype>::SetUp(const vector<Blob<Dtype>*>& bottom,
+void SoftmaxWithBayesianLossLayer<Dtype>::SetUp(const vector<Blob<Dtype>*>& bottom,
       vector<Blob<Dtype>*>* top) {
-  CHECK_EQ(bottom.size(), 2) << "SoftmaxLoss Layer takes two blobs as input.";
-  CHECK_EQ(top->size(), 0) << "SoftmaxLoss Layer takes no blob as output.";
-  CHECK_EQ(bottom[0]->num(), bottom[1]->num()) << "The data and label should have the same number.";
-  CHECK_EQ(bottom[1]->channels(), 1);
-  CHECK_EQ(bottom[1]->height(), 1);
-  CHECK_EQ(bottom[1]->width(), 1);
+  // CHECK_EQ(bottom.size(), 2) << "SoftmaxLoss Layer takes two blobs as input.";
+  // CHECK_EQ(top->size(), 0) << "SoftmaxLoss Layer takes no blob as output.";
+  // CHECK_EQ(bottom[0]->num(), bottom[1]->num()) << "The data and label should have the same number.";
+  // CHECK_EQ(bottom[1]->channels(), 1);
+  // CHECK_EQ(bottom[1]->height(), 1);
+  // CHECK_EQ(bottom[1]->width(), 1);
   labels_.Reshape(bottom[1]->num(), 1, 1, 1);
   softmax_bottom_vec_.clear();
   softmax_bottom_vec_.push_back(bottom[0]);
+  softmax_top_vec_.clear();
   softmax_top_vec_.push_back(&prob_);
   softmax_layer_->SetUp(softmax_bottom_vec_, &softmax_top_vec_);
 }
 
 template <typename Dtype>
-Dtype SoftmaxRebalancedLossLayer<Dtype>::Forward_cpu(
+Dtype SoftmaxWithBayesianLossLayer<Dtype>::Forward_cpu(
     const vector<Blob<Dtype>*>& bottom, vector<Blob<Dtype>*>* top) {
   // The forward pass computes the softmax prob values.
   // what is _prob ? looks like instantiation of some class
@@ -60,7 +61,7 @@ Dtype SoftmaxRebalancedLossLayer<Dtype>::Forward_cpu(
 template <typename Dtype>
 // computes dE/dz for every neuron input vector z = <x,w>+b
 // this does NOT update the weights, it merely calculates dy/dz
-void SoftmaxRebalancedLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
+void SoftmaxWithBayesianLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
     const bool propagate_down,
     vector<Blob<Dtype>*>* bottom) {
   // Compute the diff
@@ -88,7 +89,7 @@ void SoftmaxRebalancedLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>&
 }
 /*
 template <typename Dtype>
-void SoftmaxRebalancedLossLayer<Dtype>::Backward_cpu_old(const vector<Blob<Dtype>*>& top,
+void SoftmaxWithBayesianLossLayer<Dtype>::Backward_cpu_old(const vector<Blob<Dtype>*>& top,
     const bool propagate_down,
     vector<Blob<Dtype>*>* bottom) {
   // Compute the diff
@@ -106,7 +107,7 @@ void SoftmaxRebalancedLossLayer<Dtype>::Backward_cpu_old(const vector<Blob<Dtype
 }
 */
 
-INSTANTIATE_CLASS(SoftmaxRebalancedLossLayer);
+INSTANTIATE_CLASS(SoftmaxWithBayesianLossLayer);
 
 
 }  // namespace caffe
