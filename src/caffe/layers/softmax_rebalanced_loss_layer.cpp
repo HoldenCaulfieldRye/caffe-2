@@ -54,8 +54,11 @@ void SoftmaxWithRebalancedLossLayer<Dtype>::Forward_cpu(
   assert (spatial_dim == 1);
 
   float prior[2] = {0,0};
-  for (int i = 0; i < num; ++i)
-    prior[static_cast<int>(label[i])] += 1.0 / num;
+  for (int i = 0; i < num; ++i) {
+    for (int j = 0; j < spatial_dim; j++) {
+      prior[static_cast<int>(label[i*spatial_dim+j])] += 1.0 / num;
+    }
+  }
   
   Dtype loss = 0;
 
@@ -102,10 +105,14 @@ void SoftmaxWithRebalancedLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype
     int num = prob_.num();         //batchSize, num imgs
     int dim = prob_.count() / num; //num neurons, dimensionality
     int spatial_dim = prob_.height() * prob_.width();
-  
+
+    //ONLY WORKS FOR BINARY CASE!
     float prior[2] = {0,0};
-    for (int i = 0; i < num; ++i)
-      prior[static_cast<int>(label[i])] += 1.0 / num;
+    for (int i = 0; i < num; ++i) {
+      for (int j = 0; j < spatial_dim; j++) {
+	prior[static_cast<int>(label[i*spatial_dim+j])] += 1.0 / num;
+      }
+    }
 
     for (int i = 0; i < num; ++i) {
       bottom_diff[i * dim + static_cast<int>(label[i])] -= 1 ;
@@ -113,9 +120,11 @@ void SoftmaxWithRebalancedLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype
     // Scale down gradient
     caffe_scal(prob_.count(), Dtype(1) / num, bottom_diff);
   
-    for (int j = 0; j < dim; ++j) {
+    for (int k = 0; k < dim; ++k) {
       for (int i = 0; i < num; ++i)
-	bottom_diff[i * dim + j] /= (static_cast<float>(prior[static_cast<int>(label[i])])*dim);
+	for (int j = 0; j < spatial_dim; j++) {
+	  bottom_diff[i * dim + k] /= (static_cast<float>(prior[static_cast<int>(label[i*spatial_dim+j])])*dim);
+	}
     }
   }
 }
