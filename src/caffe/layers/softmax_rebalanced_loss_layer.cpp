@@ -115,7 +115,11 @@ void SoftmaxWithRebalancedLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype
     }
 
     for (int i = 0; i < num; ++i) {
-      bottom_diff[i * dim + static_cast<int>(label[i])] -= 1 ;
+      for (int j = 0; j < spatial_dim; ++j) {
+        bottom_diff[i * dim + static_cast<int>(
+		    label[i*spatial_dim + j])
+                    * spatial_dim + j] -= 1;
+      }
     }
     // Scale down gradient
     caffe_scal(prob_.count(), Dtype(1) / num, bottom_diff);
@@ -123,7 +127,12 @@ void SoftmaxWithRebalancedLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype
     for (int k = 0; k < dim; ++k) {
       for (int i = 0; i < num; ++i)
 	for (int j = 0; j < spatial_dim; j++) {
-	  bottom_diff[i * dim + k] /= (static_cast<float>(prior[static_cast<int>(label[i*spatial_dim+j])])*dim);
+	  bottom_diff[i * dim + static_cast<int>(
+		    label[i*spatial_dim + j])
+		      * spatial_dim + j] /=
+	  (static_cast<float>(prior[static_cast<int>(
+				    label[i*spatial_dim+j])])
+	   * dim);
 	}
     }
   }
