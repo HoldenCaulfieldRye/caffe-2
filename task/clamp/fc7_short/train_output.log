@@ -16396,3 +16396,182 @@ I1015 14:27:01.138614  1609 solver.cpp:191] Iteration 620, loss = 0.176567
 I1015 14:27:01.138659  1609 solver.cpp:403] Iteration 620, lr = 1e-05
 I1015 14:27:05.026870  1609 solver.cpp:191] Iteration 625, loss = 0.229842
 I1015 14:27:05.026919  1609 solver.cpp:403] Iteration 625, lr = 1e-05
+I1015 14:27:08.915319  1609 solver.cpp:191] Iteration 630, loss = 0.275575
+I1015 14:27:08.915413  1609 solver.cpp:403] Iteration 630, lr = 1e-05
+I1015 14:27:12.804335  1609 solver.cpp:191] Iteration 635, loss = 0.259112
+I1015 14:27:12.804388  1609 solver.cpp:403] Iteration 635, lr = 1e-05
+I1015 14:27:16.669646  1609 solver.cpp:191] Iteration 640, loss = 0.195355
+I1015 14:27:16.669693  1609 solver.cpp:403] Iteration 640, lr = 1e-05
+I1015 14:27:20.549232  1609 solver.cpp:191] Iteration 645, loss = 0.202209
+I1015 14:27:20.549278  1609 solver.cpp:403] Iteration 645, lr = 1e-05
+I1015 14:27:23.662088  1609 solver.cpp:247] Iteration 650, Testing net (#0)
+I1015 14:27:29.438904  1609 solver.cpp:285] Test loss: 0.21714
+I1015 14:27:29.438947  1609 solver.cpp:298]     Test net output #0: accuracy = 0.926295
+I1015 14:27:30.076076  1609 solver.cpp:191] Iteration 650, loss = 0.250091
+I1015 14:27:30.076119  1609 solver.cpp:403] Iteration 650, lr = 1e-05
+I1015 14:27:33.965052  1609 solver.cpp:191] Iteration 655, loss = 0.232006
+I1015 14:27:33.965101  1609 solver.cpp:403] Iteration 655, lr = 1e-05
+I1015 14:27:37.865036  1609 solver.cpp:191] Iteration 660, loss = 0.177318
+I1015 14:27:37.865083  1609 solver.cpp:403] Iteration 660, lr = 1e-05
+I1015 14:27:41.743057  1609 solver.cpp:191] Iteration 665, loss = 0.165341
+I1015 14:27:41.743124  1609 solver.cpp:403] Iteration 665, lr = 1e-05
+I1015 14:27:45.621256  1609 solver.cpp:191] Iteration 670, loss = 0.263187
+I1015 14:27:45.621304  1609 solver.cpp:403] Iteration 670, lr = 1e-05
+I1015 14:27:49.530024  1609 solver.cpp:191] Iteration 675, loss = 0.231041
+I1015 14:27:49.530071  1609 solver.cpp:403] Iteration 675, lr = 1e-05
+I1015 14:27:53.413013  1609 solver.cpp:191] Iteration 680, loss = 0.309225
+I1015 14:27:53.413060  1609 solver.cpp:403] Iteration 680, lr = 1e-05
+I1015 14:27:57.295783  1609 solver.cpp:191] Iteration 685, loss = 0.261259
+I1015 14:27:57.295830  1609 solver.cpp:403] Iteration 685, lr = 1e-05
+I1015 14:28:01.172780  1609 solver.cpp:191] Iteration 690, loss = 0.208203
+I1015 14:28:01.172827  1609 solver.cpp:403] Iteration 690, lr = 1e-05
+I1015 14:28:05.039736  1609 solver.cpp:191] Iteration 695, loss = 0.222378
+I1015 14:28:05.039783  1609 solver.cpp:403] Iteration 695, lr = 1e-05
+I1015 14:28:08.146585  1609 solver.cpp:247] Iteration 700, Testing net (#0)
+I1015 14:28:13.933128  1609 solver.cpp:285] Test loss: 0.214372
+I1015 14:28:13.933238  1609 solver.cpp:298]     Test net output #0: accuracy = 0.926793
+I1015 14:28:14.571502  1609 solver.cpp:191] Iteration 700, loss = 0.248371
+I1015 14:28:14.571548  1609 solver.cpp:403] Iteration 700, lr = 1e-05
+I1015 14:28:18.450235  1609 solver.cpp:191] Iteration 705, loss = 0.222634
+I1015 14:28:18.450283  1609 solver.cpp:403] Iteration 705, lr = 1e-05
+I1015 14:28:22.366153  1609 solver.cpp:191] Iteration 710, loss = 0.193335
+I1015 14:28:22.366199  1609 solver.cpp:403] Iteration 710, lr = 1e-05
+I1015 14:28:26.256711  1609 solver.cpp:191] Iteration 715, loss = 0.22514
+I1015 14:28:26.256757  1609 solver.cpp:403] Iteration 715, lr = 1e-05
+I1015 14:28:30.127449  1609 solver.cpp:191] Iteration 720, loss = 0.161588
+I1015 14:28:30.127497  1609 solver.cpp:403] Iteration 720, lr = 1e-05
+I1015 14:28:34.017010  1609 solver.cpp:191] Iteration 725, loss = 0.152015
+I1015 14:28:34.017060  1609 solver.cpp:403] Iteration 725, lr = 1e-05
+I1015 14:28:37.892890  1609 solver.cpp:191] Iteration 730, loss = 0.24021
+I1015 14:28:37.892940  1609 solver.cpp:403] Iteration 730, lr = 1e-05
+I1015 14:28:41.766913  1609 solver.cpp:191] Iteration 735, loss = 0.217745
+I1015 14:28:41.766963  1609 solver.cpp:403] Iteration 735, lr = 1e-05
+I1015 14:28:45.658859  1609 solver.cpp:191] Iteration 740, loss = 0.257096
+I1015 14:28:45.658967  1609 solver.cpp:403] Iteration 740, lr = 1e-05
+I1015 14:28:49.531121  1609 solver.cpp:191] Iteration 745, loss = 0.234993
+I1015 14:28:49.531167  1609 solver.cpp:403] Iteration 745, lr = 1e-05
+I1015 14:28:52.654155  1609 solver.cpp:247] Iteration 750, Testing net (#0)
+I1015 14:28:58.432132  1609 solver.cpp:285] Test loss: 0.215129
+I1015 14:28:58.432179  1609 solver.cpp:298]     Test net output #0: accuracy = 0.925797
+I1015 14:28:59.069787  1609 solver.cpp:191] Iteration 750, loss = 0.225194
+I1015 14:28:59.069833  1609 solver.cpp:403] Iteration 750, lr = 1e-05
+I1015 14:29:02.949550  1609 solver.cpp:191] Iteration 755, loss = 0.208217
+I1015 14:29:02.949599  1609 solver.cpp:403] Iteration 755, lr = 1e-05
+I1015 14:29:06.839980  1609 solver.cpp:191] Iteration 760, loss = 0.276084
+I1015 14:29:06.840029  1609 solver.cpp:403] Iteration 760, lr = 1e-05
+I1015 14:29:10.731694  1609 solver.cpp:191] Iteration 765, loss = 0.188294
+I1015 14:29:10.731742  1609 solver.cpp:403] Iteration 765, lr = 1e-05
+I1015 14:29:14.608749  1609 solver.cpp:191] Iteration 770, loss = 0.201945
+I1015 14:29:14.608799  1609 solver.cpp:403] Iteration 770, lr = 1e-05
+I1015 14:29:18.500599  1609 solver.cpp:191] Iteration 775, loss = 0.283874
+I1015 14:29:18.500669  1609 solver.cpp:403] Iteration 775, lr = 1e-05
+I1015 14:29:22.386626  1609 solver.cpp:191] Iteration 780, loss = 0.21639
+I1015 14:29:22.386675  1609 solver.cpp:403] Iteration 780, lr = 1e-05
+I1015 14:29:26.265347  1609 solver.cpp:191] Iteration 785, loss = 0.179352
+I1015 14:29:26.265398  1609 solver.cpp:403] Iteration 785, lr = 1e-05
+I1015 14:29:30.133750  1609 solver.cpp:191] Iteration 790, loss = 0.232848
+I1015 14:29:30.133798  1609 solver.cpp:403] Iteration 790, lr = 1e-05
+I1015 14:29:34.041282  1609 solver.cpp:191] Iteration 795, loss = 0.197571
+I1015 14:29:34.041332  1609 solver.cpp:403] Iteration 795, lr = 1e-05
+I1015 14:29:37.457849  1609 solver.cpp:317] Snapshotting to task/clamp/fc7_short/resume_training_iter_800.caffemodel
+I1015 14:29:38.101992  1609 solver.cpp:324] Snapshotting solver state to task/clamp/fc7_short/resume_training_iter_800.solverstate
+I1015 14:29:38.507163  1609 solver.cpp:247] Iteration 800, Testing net (#0)
+I1015 14:29:44.221791  1609 solver.cpp:285] Test loss: 0.215692
+I1015 14:29:44.221837  1609 solver.cpp:298]     Test net output #0: accuracy = 0.927789
+I1015 14:29:44.859508  1609 solver.cpp:191] Iteration 800, loss = 0.191572
+I1015 14:29:44.859554  1609 solver.cpp:403] Iteration 800, lr = 1e-05
+I1015 14:29:48.738348  1609 solver.cpp:191] Iteration 805, loss = 0.239759
+I1015 14:29:48.738415  1609 solver.cpp:403] Iteration 805, lr = 1e-05
+I1015 14:29:52.656682  1609 solver.cpp:191] Iteration 810, loss = 0.30647
+I1015 14:29:52.656729  1609 solver.cpp:403] Iteration 810, lr = 1e-05
+I1015 14:29:56.548666  1609 solver.cpp:191] Iteration 815, loss = 0.200418
+I1015 14:29:56.548713  1609 solver.cpp:403] Iteration 815, lr = 1e-05
+I1015 14:30:00.420420  1609 solver.cpp:191] Iteration 820, loss = 0.194758
+I1015 14:30:00.420467  1609 solver.cpp:403] Iteration 820, lr = 1e-05
+I1015 14:30:04.298041  1609 solver.cpp:191] Iteration 825, loss = 0.198019
+I1015 14:30:04.298090  1609 solver.cpp:403] Iteration 825, lr = 1e-05
+I1015 14:30:08.187002  1609 solver.cpp:191] Iteration 830, loss = 0.23759
+I1015 14:30:08.187049  1609 solver.cpp:403] Iteration 830, lr = 1e-05
+I1015 14:30:12.063429  1609 solver.cpp:191] Iteration 835, loss = 0.322436
+I1015 14:30:12.063477  1609 solver.cpp:403] Iteration 835, lr = 1e-05
+I1015 14:30:15.980846  1609 solver.cpp:191] Iteration 840, loss = 0.271699
+I1015 14:30:15.980892  1609 solver.cpp:403] Iteration 840, lr = 1e-05
+I1015 14:30:19.894422  1609 solver.cpp:191] Iteration 845, loss = 0.233215
+I1015 14:30:19.894492  1609 solver.cpp:403] Iteration 845, lr = 1e-05
+I1015 14:30:22.992508  1609 solver.cpp:247] Iteration 850, Testing net (#0)
+I1015 14:30:28.779762  1609 solver.cpp:285] Test loss: 0.212784
+I1015 14:30:28.779809  1609 solver.cpp:298]     Test net output #0: accuracy = 0.930777
+I1015 14:30:29.417791  1609 solver.cpp:191] Iteration 850, loss = 0.30845
+I1015 14:30:29.417836  1609 solver.cpp:403] Iteration 850, lr = 1e-05
+I1015 14:30:33.336696  1609 solver.cpp:191] Iteration 855, loss = 0.262854
+I1015 14:30:33.336746  1609 solver.cpp:403] Iteration 855, lr = 1e-05
+I1015 14:30:37.211563  1609 solver.cpp:191] Iteration 860, loss = 0.191315
+I1015 14:30:37.211613  1609 solver.cpp:403] Iteration 860, lr = 1e-05
+I1015 14:30:41.090704  1609 solver.cpp:191] Iteration 865, loss = 0.203085
+I1015 14:30:41.090754  1609 solver.cpp:403] Iteration 865, lr = 1e-05
+I1015 14:30:44.980929  1609 solver.cpp:191] Iteration 870, loss = 0.157214
+I1015 14:30:44.980978  1609 solver.cpp:403] Iteration 870, lr = 1e-05
+I1015 14:30:48.853874  1609 solver.cpp:191] Iteration 875, loss = 0.278277
+I1015 14:30:48.853924  1609 solver.cpp:403] Iteration 875, lr = 1e-05
+I1015 14:30:52.737440  1609 solver.cpp:191] Iteration 880, loss = 0.16748
+I1015 14:30:52.737510  1609 solver.cpp:403] Iteration 880, lr = 1e-05
+I1015 14:30:56.625766  1609 solver.cpp:191] Iteration 885, loss = 0.18635
+I1015 14:30:56.625815  1609 solver.cpp:403] Iteration 885, lr = 1e-05
+I1015 14:31:00.500377  1609 solver.cpp:191] Iteration 890, loss = 0.22719
+I1015 14:31:00.500427  1609 solver.cpp:403] Iteration 890, lr = 1e-05
+I1015 14:31:04.374804  1609 solver.cpp:191] Iteration 895, loss = 0.243332
+I1015 14:31:04.374852  1609 solver.cpp:403] Iteration 895, lr = 1e-05
+I1015 14:31:07.486768  1609 solver.cpp:247] Iteration 900, Testing net (#0)
+I1015 14:31:13.274868  1609 solver.cpp:285] Test loss: 0.215015
+I1015 14:31:13.274914  1609 solver.cpp:298]     Test net output #0: accuracy = 0.925299
+I1015 14:31:13.911126  1609 solver.cpp:191] Iteration 900, loss = 0.201232
+I1015 14:31:13.911172  1609 solver.cpp:403] Iteration 900, lr = 1e-05
+I1015 14:31:17.797116  1609 solver.cpp:191] Iteration 905, loss = 0.26472
+I1015 14:31:17.797164  1609 solver.cpp:403] Iteration 905, lr = 1e-05
+I1015 14:31:21.697386  1609 solver.cpp:191] Iteration 910, loss = 0.207842
+I1015 14:31:21.697435  1609 solver.cpp:403] Iteration 910, lr = 1e-05
+I1015 14:31:25.585842  1609 solver.cpp:191] Iteration 915, loss = 0.213719
+I1015 14:31:25.585932  1609 solver.cpp:403] Iteration 915, lr = 1e-05
+I1015 14:31:29.461416  1609 solver.cpp:191] Iteration 920, loss = 0.239705
+I1015 14:31:29.461465  1609 solver.cpp:403] Iteration 920, lr = 1e-05
+I1015 14:31:33.344693  1609 solver.cpp:191] Iteration 925, loss = 0.274995
+I1015 14:31:33.344741  1609 solver.cpp:403] Iteration 925, lr = 1e-05
+I1015 14:31:37.233990  1609 solver.cpp:191] Iteration 930, loss = 0.229663
+I1015 14:31:37.234040  1609 solver.cpp:403] Iteration 930, lr = 1e-05
+I1015 14:31:41.106221  1609 solver.cpp:191] Iteration 935, loss = 0.197526
+I1015 14:31:41.106271  1609 solver.cpp:403] Iteration 935, lr = 1e-05
+I1015 14:31:44.995780  1609 solver.cpp:191] Iteration 940, loss = 0.170735
+I1015 14:31:44.995829  1609 solver.cpp:403] Iteration 940, lr = 1e-05
+I1015 14:31:48.885886  1609 solver.cpp:191] Iteration 945, loss = 0.244894
+I1015 14:31:48.885936  1609 solver.cpp:403] Iteration 945, lr = 1e-05
+I1015 14:31:51.973301  1609 solver.cpp:247] Iteration 950, Testing net (#0)
+I1015 14:31:57.757565  1609 solver.cpp:285] Test loss: 0.21047
+I1015 14:31:57.757634  1609 solver.cpp:298]     Test net output #0: accuracy = 0.927789
+I1015 14:31:58.395766  1609 solver.cpp:191] Iteration 950, loss = 0.177761
+I1015 14:31:58.395810  1609 solver.cpp:403] Iteration 950, lr = 1e-05
+I1015 14:32:02.282949  1609 solver.cpp:191] Iteration 955, loss = 0.283762
+I1015 14:32:02.282996  1609 solver.cpp:403] Iteration 955, lr = 1e-05
+I1015 14:32:06.183084  1609 solver.cpp:191] Iteration 960, loss = 0.311548
+I1015 14:32:06.183131  1609 solver.cpp:403] Iteration 960, lr = 1e-05
+I1015 14:32:10.068822  1609 solver.cpp:191] Iteration 965, loss = 0.195151
+I1015 14:32:10.068871  1609 solver.cpp:403] Iteration 965, lr = 1e-05
+I1015 14:32:13.950947  1609 solver.cpp:191] Iteration 970, loss = 0.249571
+I1015 14:32:13.950994  1609 solver.cpp:403] Iteration 970, lr = 1e-05
+I1015 14:32:17.829435  1609 solver.cpp:191] Iteration 975, loss = 0.224493
+I1015 14:32:17.829483  1609 solver.cpp:403] Iteration 975, lr = 1e-05
+I1015 14:32:21.719370  1609 solver.cpp:191] Iteration 980, loss = 0.218183
+I1015 14:32:21.719418  1609 solver.cpp:403] Iteration 980, lr = 1e-05
+I1015 14:32:25.593840  1609 solver.cpp:191] Iteration 985, loss = 0.192054
+I1015 14:32:25.593888  1609 solver.cpp:403] Iteration 985, lr = 1e-05
+I1015 14:32:29.472522  1609 solver.cpp:191] Iteration 990, loss = 0.229428
+I1015 14:32:29.472615  1609 solver.cpp:403] Iteration 990, lr = 1e-05
+I1015 14:32:33.359302  1609 solver.cpp:191] Iteration 995, loss = 0.164919
+I1015 14:32:33.359347  1609 solver.cpp:403] Iteration 995, lr = 1e-05
+I1015 14:32:36.775908  1609 solver.cpp:317] Snapshotting to task/clamp/fc7_short/resume_training_iter_1000.caffemodel
+I1015 14:32:37.417752  1609 solver.cpp:324] Snapshotting solver state to task/clamp/fc7_short/resume_training_iter_1000.solverstate
+I1015 14:32:38.251044  1609 solver.cpp:228] Iteration 1000, loss = 0.191061
+I1015 14:32:38.251086  1609 solver.cpp:247] Iteration 1000, Testing net (#0)
+I1015 14:32:43.958065  1609 solver.cpp:285] Test loss: 0.217459
+I1015 14:32:43.958112  1609 solver.cpp:298]     Test net output #0: accuracy = 0.927789
+I1015 14:32:43.958122  1609 solver.cpp:233] Optimization Done.
+I1015 14:32:43.958127  1609 caffe.cpp:122] Optimization Done.
