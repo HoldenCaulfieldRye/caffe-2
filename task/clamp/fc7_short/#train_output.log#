@@ -20487,3 +20487,20 @@ I1015 16:47:48.397256  6967 solver.cpp:285] Test loss: 0.180752
 I1015 16:47:48.397301  6967 solver.cpp:298]     Test net output #0: accuracy = 0.938745
 I1015 16:47:48.397311  6967 solver.cpp:233] Optimization Done.
 I1015 16:47:48.397316  6967 caffe.cpp:122] Optimization Done.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
