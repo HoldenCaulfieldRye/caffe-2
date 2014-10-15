@@ -822,7 +822,7 @@ class SoftmaxWithRebalancedLossLayer : public LossLayer<Dtype> {
   virtual inline int MaxTopBlobs() const { return 2; }
 
  protected:
-  /// @copydoc SoftmaxWithLossLayer
+  /// @copydoc SoftmaxWithRebalancedLossLayer
   virtual void Forward_cpu(const vector<Blob<Dtype>*>& bottom,
       vector<Blob<Dtype>*>* top);
   virtual void Forward_gpu(const vector<Blob<Dtype>*>& bottom,
