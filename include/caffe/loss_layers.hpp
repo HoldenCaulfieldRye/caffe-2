@@ -103,7 +103,7 @@ class PerClassRebalancedAccuracyLayer: public Layer<Dtype> {
 
 
  protected:
-  virtual Dtype Forward_cpu(const vector<Blob<Dtype>*>& bottom,
+  virtual void Forward_cpu(const vector<Blob<Dtype>*>& bottom,
       vector<Blob<Dtype>*>* top);
 
   /// @brief Not implemented -- AccuracyLayer cannot be used as a loss.
