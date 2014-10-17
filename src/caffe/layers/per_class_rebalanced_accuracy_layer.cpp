@@ -5,7 +5,7 @@
 #include <utility>
 #include <vector>
 #include <cfloat>
-// #include <iostream>
+#include <iostream>
 // #include <cmath>
 
 #include "caffe/layer.hpp"
@@ -32,12 +32,9 @@ void PerClassRebalancedAccuracyLayer<Dtype>::Reshape(
   CHECK_EQ(bottom[1]->width(), 1);
   (*top)[0]->Reshape(1, 1, 1, 1);
   int dim = bottom[0]->count() / bottom[0]->num();
-  int label_count = bottom[1]->count();
   int accuracies_count = dim + 1;
-  CHECK_EQ(dim, label_count)
-      << "Oh shit I thought dim and label_count were equal";
   (*top)[0]->Reshape(1, 1, 1, accuracies_count);
-  accuracies_.Reshape(1, 1, 1, dim); //accuracies_count);    
+  accuracies_.Reshape(1, 1, 1, accuracies_count);    
   labels_count_.Reshape(1, 1, 1, dim);  
 }
 
@@ -79,7 +76,13 @@ void PerClassRebalancedAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype
     //last accuracies entry is average of class accuracies
     accuracies[accuracies_count-1] += accuracies[j];
   }
-  accuracies[accuracies_count-1] /= static_cast<float>(num);
+  accuracies[accuracies_count-1] /= static_cast<float>(dim);
+
+  std::cout << "Accuracies: ";
+  for (int j = 0; j < accuracies_count; ++j) {
+    std::cout << accuracies[j] << ", ";  
+  }
+  std::cout << std::endl;
   
   // LOG(INFO) << "Accuracies, class by class: " << accuracy;
   //can I do this or does 
