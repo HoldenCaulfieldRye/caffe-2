@@ -230,7 +230,7 @@ Layer<Dtype>* GetLayer(const LayerParameter& param) {
   case LayerParameter_LayerType_POOLING:
     return GetPoolingLayer<Dtype>(name, param);
   case LayerParameter_LayerType_PER_CLASS_ACCURACY:
-    return new PowerLayer<Dtype>(param);
+    return new PerClassAccuracyLayer<Dtype>(param);
   case LayerParameter_LayerType_POWER:
     return new PowerLayer<Dtype>(param);
   case LayerParameter_LayerType_RELU:
