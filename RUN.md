@@ -38,7 +38,9 @@ NEXT STEPS:
    -> bit.ly/1oawXcH
    -> bit.ly/1oawVkS
    ->
-4) final product merge test set into training set!!
+4) python layers for caffe: bit.ly/1Dhl8Ex
+5) more data augmentation
+6) final product merge test set into training set!!
    
 
 
