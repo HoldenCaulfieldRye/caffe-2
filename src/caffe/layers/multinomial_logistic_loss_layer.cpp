@@ -2,6 +2,7 @@
 #include <cfloat>
 #include <cmath>
 #include <vector>
+#include <iostream>
 
 #include "caffe/layer.hpp"
 #include "caffe/util/io.hpp"
@@ -27,6 +28,7 @@ void MultinomialLogisticLossLayer<Dtype>::Forward_cpu(
   int num = bottom[0]->num();
   int dim = bottom[0]->count() / bottom[0]->num();
   Dtype loss = 0;
+  std::cout << "Yes hello this is multinomial loss" << std::endl;
   for (int i = 0; i < num; ++i) {
     int label = static_cast<int>(bottom_label[i]);
     Dtype prob = std::max(
