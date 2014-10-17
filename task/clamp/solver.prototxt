@@ -13,5 +13,5 @@ max_iter: 4000
 momentum: 0.9
 weight_decay: 0.0005
 snapshot: 1000
-snapshot_prefix: "task/clamp/fc7_short/resume_training"
+snapshot_prefix: "task/clamp/fc7_rb/resume_training"
 solver_mode: GPU
