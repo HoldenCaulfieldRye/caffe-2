@@ -1,8 +1,10 @@
 #include <string>
+#include <iostream>
 
 #include "caffe/layer.hpp"
 #include "caffe/proto/caffe.pb.h"
 #include "caffe/vision_layers.hpp"
+
 
 namespace caffe {
 
@@ -178,9 +180,10 @@ template <typename Dtype>
 Layer<Dtype>* GetLayer(const LayerParameter& param) {
   const string& name = param.name();
   const LayerParameter_LayerType& type = param.type();
+  std::cout << "Hello hello everyone loss_layers.hpp" << std::endl << std::endl;
   switch (type) {
   case LayerParameter_LayerType_ACCURACY:
-    return new AccuracyLayer<Dtype>(param);
+    return new PerClassAccuracyLayer<Dtype>(param);
   case LayerParameter_LayerType_ABSVAL:
     return new AbsValLayer<Dtype>(param);
   case LayerParameter_LayerType_ARGMAX:

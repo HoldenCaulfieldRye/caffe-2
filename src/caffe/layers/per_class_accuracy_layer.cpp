@@ -78,11 +78,11 @@ void PerClassAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& botto
   }
   accuracies[accuracies_count-1] /= static_cast<float>(dim);
 
-  std::cout << "Accuracies: ";
-  for (int j = 0; j < accuracies_count; ++j) {
-    std::cout << accuracies[j] << ", ";  
-  }
-  std::cout << std::endl;
+  // std::cout << "Accuracies: ";
+  // for (int j = 0; j < accuracies_count; ++j) {
+  //   std::cout << accuracies[j] << ", ";  
+  // }
+  // std::cout << std::endl;
   
   // LOG(INFO) << "Accuracies, class by class: " << accuracy;
   //can I do this or does 
