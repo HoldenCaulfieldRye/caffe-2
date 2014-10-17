@@ -84,9 +84,9 @@ class AccuracyLayer : public Layer<Dtype> {
 };
 
 template <typename Dtype>
-class PerClassRebalancedAccuracyLayer: public Layer<Dtype> {
+class PerClassAccuracyLayer: public Layer<Dtype> {
  public:
-  explicit PerClassRebalancedAccuracyLayer(const LayerParameter& param)
+  explicit PerClassAccuracyLayer(const LayerParameter& param)
       : Layer<Dtype>(param) {}
   virtual void LayerSetUp(const vector<Blob<Dtype>*>& bottom,
       vector<Blob<Dtype>*>* top);

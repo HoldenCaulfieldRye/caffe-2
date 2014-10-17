@@ -18,12 +18,12 @@ using std::max;
 namespace caffe {
   
 template <typename Dtype>
-void PerClassRebalancedAccuracyLayer<Dtype>::LayerSetUp(
+void PerClassAccuracyLayer<Dtype>::LayerSetUp(
   const vector<Blob<Dtype>*>& bottom, vector<Blob<Dtype>*>* top) {
 }
 
 template <typename Dtype>
-void PerClassRebalancedAccuracyLayer<Dtype>::Reshape(
+void PerClassAccuracyLayer<Dtype>::Reshape(
   const vector<Blob<Dtype>*>& bottom, vector<Blob<Dtype>*>* top) {
   CHECK_EQ(bottom[0]->num(), bottom[1]->num())
       << "The data and label should have the same number.";
@@ -40,7 +40,7 @@ void PerClassRebalancedAccuracyLayer<Dtype>::Reshape(
 
 
 template <typename Dtype>
-void PerClassRebalancedAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
+void PerClassAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
     vector<Blob<Dtype>*>* top) {
   const Dtype* bottom_data = bottom[0]->cpu_data();
   const Dtype* bottom_label = bottom[1]->cpu_data(); //threshold_layer calls this bottom_data
@@ -94,6 +94,6 @@ void PerClassRebalancedAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype
   // Accuracy layer should not be used as a loss function.
 } 
 
-INSTANTIATE_CLASS(PerClassRebalancedAccuracyLayer);
+INSTANTIATE_CLASS(PerClassAccuracyLayer);
 
 }  // namespace caffe
