@@ -34,9 +34,10 @@ void AccuracyLayer<Dtype>::Reshape(
   CHECK_EQ(bottom[1]->width(), 1);
   int dim = bottom[0]->count() / bottom[0]->num();
   int label_count = bottom[1]->count();
+  int accuracies_count = dim + 1;
   CHECK_EQ(dim, label_count)
       << "Oh shit I thought dim and label_count were equal";
-  (*top)[0]->Reshape(1, 1, 1, dim);
+  (*top)[0]->Reshape(1, 1, 1, accuracies_count);
   accuracies_.ReshapeLike((*top)[0]);
   labels_count_.Reshape(1, 1, 1, dim);  
 }
@@ -51,6 +52,7 @@ void PerClassRebalancedAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype
   // Dtype accuracy = 0;
   int num = bottom[0]->num();
   int dim = bottom[0]->count() / bottom[0]->num();
+  int accuracies_count = dim + 1;
 
   Dtype* labels_count = labels_count_.mutable_cpu_data();
   Dtype* accuracies = accuracies_.mutable_cpu_data();
@@ -74,12 +76,16 @@ void PerClassRebalancedAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype
       accuracies[static_cast<int>(bottom_label[i])] += 1.0;
   }
 
-  for (int j = 0; j < dim; ++j) 
+  for (int j = 0; j < dim; ++j) {
     accuracies[j] /= static_cast<float>(labels_count[j]);
-      
+    //last accuracies entry is average of class accuracies
+    accuracies[accuracies_count-1] += accuracies[j];
+  }
+  accuracies[accuracies_count-1] /= static_cast<float>(num);
+  
   // LOG(INFO) << "Accuracies, class by class: " << accuracy;
   //can I do this or does 
-  caffe_copy(dim, accuracies, (*top)[0]->mutable_cpu_data());
+  caffe_copy(accuracies_count, accuracies, (*top)[0]->mutable_cpu_data());
   // (*top)[0]->mutable_cpu_data()[0] = accuracy / num;
   // (*top)[0]->mutable_cpu_data()[0] = 1;
   // (*top)[0]->mutable_cpu_data()[0] = 2;
