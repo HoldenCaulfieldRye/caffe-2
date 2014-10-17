@@ -80,7 +80,6 @@ class AccuracyLayer : public Layer<Dtype> {
       if (propagate_down[i]) { NOT_IMPLEMENTED; }
     }
   }
-
   int top_k_;
 };
 
@@ -114,11 +113,10 @@ class PerClassRebalancedAccuracyLayer: public Layer<Dtype> {
     }
   }
 
-  // intermediary blob to hold label counts
-  Blob<Dtype> labels_count_;
-  
-  //class accuracies
   Blob<Dtype> accuracies_;
+  // intermediary blob to hold label counts
+  Blob<Dtype> labels_count_;  
+  //class accuracies
 };
   
 

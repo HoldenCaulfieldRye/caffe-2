@@ -23,22 +23,21 @@ void PerClassRebalancedAccuracyLayer<Dtype>::LayerSetUp(
 }
 
 template <typename Dtype>
-void AccuracyLayer<Dtype>::Reshape(
+void PerClassRebalancedAccuracyLayer<Dtype>::Reshape(
   const vector<Blob<Dtype>*>& bottom, vector<Blob<Dtype>*>* top) {
   CHECK_EQ(bottom[0]->num(), bottom[1]->num())
       << "The data and label should have the same number.";
-  CHECK_LE(top_k_, bottom[0]->count() / bottom[0]->num())
-      << "top_k must be less than or equal to the number of classes.";
   CHECK_EQ(bottom[1]->channels(), 1);
   CHECK_EQ(bottom[1]->height(), 1);
   CHECK_EQ(bottom[1]->width(), 1);
+  (*top)[0]->Reshape(1, 1, 1, 1);
   int dim = bottom[0]->count() / bottom[0]->num();
   int label_count = bottom[1]->count();
   int accuracies_count = dim + 1;
   CHECK_EQ(dim, label_count)
       << "Oh shit I thought dim and label_count were equal";
   (*top)[0]->Reshape(1, 1, 1, accuracies_count);
-  accuracies_.ReshapeLike((*top)[0]);
+  accuracies_.Reshape(1, 1, 1, dim); //accuracies_count);    
   labels_count_.Reshape(1, 1, 1, dim);  
 }
 
@@ -46,7 +45,6 @@ void AccuracyLayer<Dtype>::Reshape(
 template <typename Dtype>
 void PerClassRebalancedAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
     vector<Blob<Dtype>*>* top) {
-  Dtype* bottom_diff = (*bottom)[0]->mutable_cpu_diff();
   const Dtype* bottom_data = bottom[0]->cpu_data();
   const Dtype* bottom_label = bottom[1]->cpu_data(); //threshold_layer calls this bottom_data
   // Dtype accuracy = 0;
