@@ -114,9 +114,11 @@ class PerClassRebalancedAccuracyLayer: public Layer<Dtype> {
     }
   }
 
-  int top_k_;
   // intermediary blob to hold label counts
-  Blob<Dtype> labels_;
+  Blob<Dtype> labels_count_;
+  
+  //class accuracies
+  Blob<Dtype> accuracies_;
 };
   
 

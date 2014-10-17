@@ -82,6 +82,16 @@ MAT$(PROJECT)_SO := matlab/$(PROJECT)/$(PROJECT).$(MAT_SO_EXT)
 ##############################
 # Derive generated files
 ##############################
+# The objects corresponding to the source files
+# These objects will be linked into the final shared library, so we
+# exclude the tool, example, and test objects.
+LAYER_BUILD_DIR := $(OBJ_BUILD_DIR)/layers
+CXX_OBJS := $(addprefix $(BUILD_DIR)/, ${CXX_SRCS:.cpp=.o})
+CU_OBJS := $(addprefix $(BUILD_DIR)/, ${CU_SRCS:.cu=.cuo})
+PROTO_OBJS := ${PROTO_GEN_CC:.cc=.o}
+OBJ_BUILD_DIR := $(BUILD_DIR)/src/$(PROJECT)
+UTIL_BUILD_DIR := $(OBJ_BUILD_DIR)/util
+OBJS := $(PROTO_OBJS) $(CXX_OBJS) $(CU_OBJS)
 # The generated files for protocol buffers
 PROTO_GEN_HEADER_SRCS := $(addprefix $(PROTO_BUILD_DIR)/, \
 		$(notdir ${PROTO_SRCS:.proto=.pb.h}))
@@ -93,16 +103,6 @@ PY_PROTO_BUILD_DIR := python/$(PROJECT)/proto
 PY_PROTO_INIT := python/$(PROJECT)/proto/__init__.py
 PROTO_GEN_PY := $(foreach file,${PROTO_SRCS:.proto=_pb2.py}, \
 		$(PY_PROTO_BUILD_DIR)/$(notdir $(file)))
-# The objects corresponding to the source files
-# These objects will be linked into the final shared library, so we
-# exclude the tool, example, and test objects.
-CXX_OBJS := $(addprefix $(BUILD_DIR)/, ${CXX_SRCS:.cpp=.o})
-CU_OBJS := $(addprefix $(BUILD_DIR)/, ${CU_SRCS:.cu=.cuo})
-PROTO_OBJS := ${PROTO_GEN_CC:.cc=.o}
-OBJ_BUILD_DIR := $(BUILD_DIR)/src/$(PROJECT)
-LAYER_BUILD_DIR := $(OBJ_BUILD_DIR)/layers
-UTIL_BUILD_DIR := $(OBJ_BUILD_DIR)/util
-OBJS := $(PROTO_OBJS) $(CXX_OBJS) $(CU_OBJS)
 # tool, example, and test objects
 TOOL_OBJS := $(addprefix $(BUILD_DIR)/, ${TOOL_SRCS:.cpp=.o})
 TOOL_BUILD_DIR := $(BUILD_DIR)/tools

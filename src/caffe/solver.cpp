@@ -262,7 +262,8 @@ void Solver<Dtype>::Test(const int test_net_id) {
     if (param_.test_compute_loss()) {
       loss += iter_loss;
     }
-    if (i == 0) {
+    if (i == 0) { //test_net
+      //multiple result vectors
       for (int j = 0; j < result.size(); ++j) {
         const Dtype* result_vec = result[j]->cpu_data();
         for (int k = 0; k < result[j]->count(); ++k) {

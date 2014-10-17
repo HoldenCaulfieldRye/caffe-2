@@ -4,9 +4,9 @@
 #include <functional>
 #include <utility>
 #include <vector>
+#include <cfloat>
 // #include <iostream>
 // #include <cmath>
-// #include <cfloat>
 
 #include "caffe/layer.hpp"
 #include "caffe/vision_layers.hpp"
@@ -20,7 +20,6 @@ namespace caffe {
 template <typename Dtype>
 void PerClassRebalancedAccuracyLayer<Dtype>::LayerSetUp(
   const vector<Blob<Dtype>*>& bottom, vector<Blob<Dtype>*>* top) {
-  top_k_ = this->layer_param_.accuracy_param().top_k();
 }
 
 template <typename Dtype>
@@ -33,75 +32,60 @@ void AccuracyLayer<Dtype>::Reshape(
   CHECK_EQ(bottom[1]->channels(), 1);
   CHECK_EQ(bottom[1]->height(), 1);
   CHECK_EQ(bottom[1]->width(), 1);
-  (*top)[0]->Reshape(1, 1, 1, 1);
+  int dim = bottom[0]->count() / bottom[0]->num();
+  int label_count = bottom[1]->count();
+  CHECK_EQ(dim, label_count)
+      << "Oh shit I thought dim and label_count were equal";
+  (*top)[0]->Reshape(1, 1, 1, dim);
+  accuracies_.ReshapeLike((*top)[0]);
+  labels_count_.Reshape(1, 1, 1, dim);  
 }
 
 
 template <typename Dtype>
 void PerClassRebalancedAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
     vector<Blob<Dtype>*>* top) {
-  Dtype accuracy = 0;
+  Dtype* bottom_diff = (*bottom)[0]->mutable_cpu_diff();
   const Dtype* bottom_data = bottom[0]->cpu_data();
   const Dtype* bottom_label = bottom[1]->cpu_data(); //threshold_layer calls this bottom_data
+  // Dtype accuracy = 0;
   int num = bottom[0]->num();
   int dim = bottom[0]->count() / bottom[0]->num();
 
-  int label_count = bottom[1]->count();
+  Dtype* labels_count = labels_count_.mutable_cpu_data();
+  Dtype* accuracies = accuracies_.mutable_cpu_data();
+  caffe_set(labels_count_.count(), Dtype(FLT_MIN), labels_count);
+  caffe_set(accuracies_.count(), Dtype(FLT_MIN), accuracies);
   
-  Dtype* labels_count = labels_.mutable_cpu_data();
-  caffe_set(labels_.count(), Dtype(FLT_MIN), labels_count);
-  for (int i = 0; i < label_count; ++i) {
-    labels_count[static_cast<int>(bottom_label[i])] += 1.0;
-  } 
-
-  float prior[2] = {0,0};
-  for (int i = 0; i < num; ++i) 
-    prior[static_cast<int>(bottom_label[i])] += 1.0 / num;
-    
-  vector<Dtype> maxval(top_k_+1);
-  vector<int> max_id(top_k_+1);
   for (int i = 0; i < num; ++i) {
-    // Top-k accuracy
-    std::vector<std::pair<Dtype, int> > bottom_data_vector;
+    //count freq of each class
+    labels_count[static_cast<int>(bottom_label[i])] += 1.0;
+    //determine whether correctly classified
+    Dtype maxval = -FLT_MAX;
+    int max_id = 0;
     for (int j = 0; j < dim; ++j) {
-      bottom_data_vector.push_back(
-          std::make_pair(bottom_data[i * dim + j], j));
-    }
-    std::partial_sort(
-        bottom_data_vector.begin(), bottom_data_vector.begin() + top_k_,
-        bottom_data_vector.end(), std::greater<std::pair<Dtype, int> >());
-    // check if true label is in top k predictions
-    for (int k = 0; k < top_k_; k++) {
-      if (bottom_data_vector[k].second == static_cast<int>(bottom_label[i])) {
-        ++accuracy;
-        break;
+      //find which class gets highest prob
+      if (bottom_data[i * dim + j] > maxval) {
+        maxval = bottom_data[i * dim + j];
+        max_id = j;
       }
     }
+    if (max_id == static_cast<int>(bottom_label[i]))
+      accuracies[static_cast<int>(bottom_label[i])] += 1.0;
   }
-  
-  // for (int i = 0; i < num; ++i) {
-  //   // Accuracy
-  //   Dtype maxval = -FLT_MAX;
-  //   int max_id = 0;
-  //   for (int j = 0; j < dim; ++j) {
-  //     if (bottom_data[i * dim + j] > maxval) {
-  //       maxval = bottom_data[i * dim + j];
-  //       max_id = j;
-  //     }
-  //   }
-  //   if (max_id == static_cast<int>(bottom_label[i])){
-  //     accuracy += 1.0/static_cast<float>(labels_count[max_id]);
-  //   }
-  //   Dtype prob = max(bottom_data[i * dim + static_cast<int>(bottom_label[i])],
-  //                    Dtype(kLOG_THRESHOLD));
-  //   logprob -= log(prob) / (dim*num*prior[static_cast<int>(bottom_label[i])]);
-  // }
-  // (*top)[0]->mutable_cpu_data()[0] = accuracy / static_cast<float>(dim); //test score 0
-  // (*top)[0]->mutable_cpu_data()[1] = logprob ;  //test score 1
 
+  for (int j = 0; j < dim; ++j) 
+    accuracies[j] /= static_cast<float>(labels_count[j]);
+      
+  // LOG(INFO) << "Accuracies, class by class: " << accuracy;
+  //can I do this or does 
+  caffe_copy(dim, accuracies, (*top)[0]->mutable_cpu_data());
+  // (*top)[0]->mutable_cpu_data()[0] = accuracy / num;
+  // (*top)[0]->mutable_cpu_data()[0] = 1;
+  // (*top)[0]->mutable_cpu_data()[0] = 2;
+  // (*top)[0]->mutable_cpu_data()[0] = 3;
   // Accuracy layer should not be used as a loss function.
-  return Dtype(0);
-}
+} 
 
 INSTANTIATE_CLASS(PerClassRebalancedAccuracyLayer);
 

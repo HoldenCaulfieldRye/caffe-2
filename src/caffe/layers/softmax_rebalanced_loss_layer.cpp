@@ -42,7 +42,6 @@ void SoftmaxWithRebalancedLossLayer<Dtype>::Forward_cpu(
   // softmax_bottom_vec_[0] = bottom[0];
   softmax_layer_->Forward(softmax_bottom_vec_, &softmax_top_vec_);
   const Dtype* prob_data = prob_.cpu_data();
-  const Dtype* bottom_data = bottom[0]->cpu_data();
   const Dtype* label = bottom[1]->cpu_data();
   int num = prob_.num();
   int dim = prob_.count() / num;

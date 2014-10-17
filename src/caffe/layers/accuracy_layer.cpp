@@ -63,6 +63,9 @@ void AccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
 
   // LOG(INFO) << "Accuracy: " << accuracy;
   (*top)[0]->mutable_cpu_data()[0] = accuracy / num;
+  (*top)[0]->mutable_cpu_data()[1] = 1;
+  (*top)[0]->mutable_cpu_data()[2] = 2;
+  (*top)[0]->mutable_cpu_data()[3] = 3;
   // Accuracy layer should not be used as a loss function.
 }
 

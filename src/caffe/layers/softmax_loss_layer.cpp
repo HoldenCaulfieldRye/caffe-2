@@ -44,11 +44,10 @@ void SoftmaxWithLossLayer<Dtype>::Forward_cpu(
   int dim = prob_.count() / num; 
   int spatial_dim = prob_.height() * prob_.width();
 
-  //prob_.count() := no entries in prob_data ?
-  //prob_.num()   := batchsize ?
-  //dim           := no classes ?
-  //spatial_dim   := 1 ?
-  assert (spatial_dim == 1);
+  //prob_.count() := no entries in prob_data 
+  //prob_.num()   := batchsize 
+  //dim           := no classes 
+  //spatial_dim   := 1 
     
   Dtype loss = 0;
   for (int i = 0; i < num; ++i) {
