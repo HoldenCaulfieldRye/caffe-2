@@ -825,8 +825,8 @@ class SoftmaxWithRebalancedLossLayer : public LossLayer<Dtype> {
   /// @copydoc SoftmaxWithRebalancedLossLayer
   virtual void Forward_cpu(const vector<Blob<Dtype>*>& bottom,
       vector<Blob<Dtype>*>* top);
-  virtual void Forward_gpu(const vector<Blob<Dtype>*>& bottom,
-      vector<Blob<Dtype>*>* top);
+  // virtual void Forward_gpu(const vector<Blob<Dtype>*>& bottom,
+  //     vector<Blob<Dtype>*>* top);
 
   /**
    * @brief Computes the softmax loss error gradient w.r.t. the predictions.
@@ -857,8 +857,8 @@ class SoftmaxWithRebalancedLossLayer : public LossLayer<Dtype> {
    */
   virtual void Backward_cpu(const vector<Blob<Dtype>*>& top,
       const vector<bool>& propagate_down, vector<Blob<Dtype>*>* bottom);
-  virtual void Backward_gpu(const vector<Blob<Dtype>*>& top,
-      const vector<bool>& propagate_down, vector<Blob<Dtype>*>* bottom);
+  // virtual void Backward_gpu(const vector<Blob<Dtype>*>& top,
+  //     const vector<bool>& propagate_down, vector<Blob<Dtype>*>* bottom);
 
   /// The internal SoftmaxLayer used to map predictions to a distribution.
   shared_ptr<SoftmaxLayer<Dtype> > softmax_layer_;
