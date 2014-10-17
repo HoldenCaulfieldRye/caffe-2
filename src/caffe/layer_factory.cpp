@@ -4,7 +4,6 @@
 #include "caffe/proto/caffe.pb.h"
 #include "caffe/vision_layers.hpp"
 
-
 namespace caffe {
 
 // GetLayer() defines the overall layer factory. The Get*Layer() functions

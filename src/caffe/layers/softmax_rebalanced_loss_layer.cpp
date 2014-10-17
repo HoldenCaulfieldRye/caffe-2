@@ -61,7 +61,7 @@ void SoftmaxWithRebalancedLossLayer<Dtype>::Forward_cpu(
   
   Dtype loss = 0;
   
-  std::cout << "Yes hello this is softmax rebalanced" << std::endl;
+  // std::cout << "Yes hello this is softmax rebalanced" << std::endl;
 
   for (int i = 0; i < num; ++i) {
   // std::cout << "loss: ";
