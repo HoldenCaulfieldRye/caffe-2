@@ -544,10 +544,6 @@ const vector<Blob<Dtype>*>& Net<Dtype>::Forward(
     net_input_blobs_[i]->CopyFrom(*bottom[i]);
   }
   
-  //dalyac
-  // const vector<Blob<Dtype>*>& result = ForwardPrefilled(loss);
-  // LOG(INFO) << "result[0]->cpu_data()[0] ie net_output_blobs_[0]->cpu_data()[0] after Net::Forward() " << result[0]->cpu_data()[0];
-  // return result;
   return ForwardPrefilled(loss);
 }
 

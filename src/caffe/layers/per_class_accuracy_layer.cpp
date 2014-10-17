@@ -32,7 +32,7 @@ void PerClassAccuracyLayer<Dtype>::Reshape(
   CHECK_EQ(bottom[1]->width(), 1);
   (*top)[0]->Reshape(1, 1, 1, 1);
   int dim = bottom[0]->count() / bottom[0]->num();
-  int accuracies_count = dim + 1;
+  int accuracies_count = dim + 2;
   (*top)[0]->Reshape(1, 1, 1, accuracies_count);
   accuracies_.Reshape(1, 1, 1, accuracies_count);    
   labels_count_.Reshape(1, 1, 1, dim);  
@@ -47,7 +47,7 @@ void PerClassAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& botto
   // Dtype accuracy = 0;
   int num = bottom[0]->num();
   int dim = bottom[0]->count() / bottom[0]->num();
-  int accuracies_count = dim + 1;
+  int accuracies_count = dim + 2;
 
   Dtype* labels_count = labels_count_.mutable_cpu_data();
   Dtype* accuracies = accuracies_.mutable_cpu_data();
@@ -72,11 +72,15 @@ void PerClassAccuracyLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& botto
   }
 
   for (int j = 0; j < dim; ++j) {
-    accuracies[j] /= static_cast<float>(labels_count[j]);
-    //last accuracies entry is average of class accuracies
+    //accuracy averaged across cases
     accuracies[accuracies_count-1] += accuracies[j];
+    //accuracy for class j
+    accuracies[j] /= static_cast<float>(labels_count[j]);
+    //accuracy averaged across classes
+    accuracies[accuracies_count-2] += accuracies[j];
   }
-  accuracies[accuracies_count-1] /= static_cast<float>(dim);
+  accuracies[accuracies_count-1] /= static_cast<float>(num);
+  accuracies[accuracies_count-2] /= static_cast<float>(dim);
 
   // std::cout << "Accuracies: ";
   // for (int j = 0; j < accuracies_count; ++j) {

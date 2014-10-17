@@ -1,5 +1,4 @@
 #include <string>
-#include <iostream>
 
 #include "caffe/layer.hpp"
 #include "caffe/proto/caffe.pb.h"
@@ -180,7 +179,6 @@ template <typename Dtype>
 Layer<Dtype>* GetLayer(const LayerParameter& param) {
   const string& name = param.name();
   const LayerParameter_LayerType& type = param.type();
-  std::cout << "Hello hello everyone loss_layers.hpp" << std::endl << std::endl;
   switch (type) {
   case LayerParameter_LayerType_ACCURACY:
     return new PerClassAccuracyLayer<Dtype>(param);
