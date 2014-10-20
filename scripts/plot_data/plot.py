@@ -127,8 +127,9 @@ if __name__ == '__main__':
   # print os.path.isfile(oj(model_dir,'train_output.log'))
   # print 'command:', command
   # call(command)
-  cmd = "./parselog.sh "+oj(model_dir,'train_output.log')
-  subprocess.Popen(cmd, shell=True, stdout = subprocess.PIPE, stderr=subprocess.STDOUT)
+  cmd = "./parselog.sh " + oj(model_dir,'train_output.log')
+  p = subprocess.Popen(cmd, shell=True, stdout = subprocess.PIPE, stderr=subprocess.STDOUT)
+  p.wait()
     
   # test_interval = [int(arg.split('=')[-1]) for arg in sys.argv
   #                  if arg.startswith('test-inter=')]
