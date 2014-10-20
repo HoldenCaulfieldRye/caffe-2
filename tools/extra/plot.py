@@ -80,6 +80,7 @@ def get_caffe_val_loss(model_dir, test_interval):
   assert stretch[-1] != stretch[-2]
   return stretch
 
+
 def get_caffe_errors(model_dir, typ, idx):
   data_files = []
   for fname in os.listdir(model_dir):
@@ -110,11 +111,6 @@ def get_caffe_errors(model_dir, typ, idx):
   return content
 
 
-def parse_log(model_dir):
-  cmd = "./parselog.sh "+oj(model_dir,'train_output.log')
-  p = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
-  p.wait()
-
 
 def print_help():
   print """Usage:
@@ -140,7 +136,6 @@ if __name__ == '__main__':
 
     parse_log(model_dir)
 
-
     start,end = -1,-1
     for arg in sys.argv:
       if arg.startswith("start-iter="):
@@ -149,6 +144,13 @@ if __name__ == '__main__':
         end = int(arg.split('=')[-1])
 
     test_interval = get_test_interval(model_dir)
+    train = get_caffe_train_errors(model_dir)
+    val_loss = get()
+    val_acc0 = get()
+    val_acc1 = get()    
+    val_pcacc = get()
+    val_acc = get()
+    
     train, val_acc, val_loss = get_caffe_train_errors(model_dir), get_caffe_val_acc(model_dir, test_interval), get_caffe_val_loss(model_dir, test_interval)
     print 'train looks like %s and %s'%(train[0], train[-1])
     matplot(model_dir, train, val_acc, val_loss, start, end)
