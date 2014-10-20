@@ -19,10 +19,13 @@ sol:
 data/<name>/{train,val}.txt missing label numbers
 
 
+dirty protobuf hack:
+layer_factory.cpp: case OLD: return IMPOSTOR
+loss_layers.hpp:   IMPOSTOR::LayerParameter_LayerType() { return OLD }
 
 
-
-
+cleaner protobuf hack:
+caffe.proto: give new layer smaller ID, swap
 
 
 

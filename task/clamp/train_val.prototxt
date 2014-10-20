@@ -333,6 +333,7 @@ layers {
     }
   }
 }
+
 layers {
   name: "loss"
   type: MULTINOMIAL_LOGISTIC_LOSS
